@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,10 +20,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login')->name('login');
-    Route::post('forget', 'forgetPassword');
-    Route::post('reset', 'resetPassword');
     Route::post('register', 'register');
-    Route::post('logout', 'logout');
+    // Route::post('forget', 'forgetPassword');
+    // Route::post('reset', 'resetPassword');
+    // Route::post('logout', 'logout');
 });
 
 

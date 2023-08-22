@@ -11,4 +11,12 @@ class Centre extends Model
     use HasFactory ,softDeleted;
 
     protected $guarded =[];
+
+
+    public function rooms(): HasMany
+    {
+        return $this->hasMany(Room::class);
+    }
+
+    
 }
