@@ -14,16 +14,18 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
-Route::controller(AuthController::class)->group(function () {
-    Route::post('login', 'login')->name('login');
-    Route::post('register', 'register');
-    // Route::post('forget', 'forgetPassword');
-    // Route::post('reset', 'resetPassword');
-    // Route::post('logout', 'logout');
+ Route::controller(AuthController::class)->group(function () {
+
+ Route::post('login', 'login')->name('login');
+ Route::post('register', 'register');
+ Route::post('forget', 'forgetPassword');
+ Route::post('reset', 'resetPassword');
+ });
+
+Route::middleware('auth:api')->controller(AuthController::class)->group(function () {
+    
+    Route::post('logout', 'logout');
 });
 
 

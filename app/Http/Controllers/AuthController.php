@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use Laravel\Passport\RefreshToken;
+use Laravel\Passport\Token;
 
 
 class AuthController extends Controller
@@ -27,21 +28,25 @@ class AuthController extends Controller
             if($validated){
                 $credentials =  ['phone'=>$request->get('phone'),'password'=>$request->get('password')];
 
-                 $user = User::where('phone',$request['phone'])->get();
+                //  $user = User::where('phone',$request['phone'])->get();
                 if(Auth::attempt($credentials)){
+                    $user = Auth::user();
+                    // return $user->createToken('ApiToken')->accessToken;
                     return [
                         'status' => 'User Login Successfuly',
                         'code' => '200',
                         'data' => new UserResource($user),
+                        'authorization' => [
+                            'token' => $user->createToken('ApiToken')->accessToken,
+                            'type' => 'bearer',
+                        ]
                     ];
                 }else{
                     return [
                         'status' => 'User Falid Credentials',
                         'code' => '401',
-                    ];
-                        
+                    ];            
                 }
-           
             }
             
         }
@@ -56,10 +61,17 @@ class AuthController extends Controller
             'code' => '200',
             'data' => new UserResource($user),
         ];
-
-            
         }
 
+
+        public function logout(Request $request){
+           
+            Auth::user()->token()->revoke();
+            return [
+                'status' => 'User Logout Successfuly',
+                'code' => '200',         
+            ];
+        }
 
 
 
