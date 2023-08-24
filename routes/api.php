@@ -20,7 +20,7 @@ use App\Http\Controllers\AuthController;
  Route::post('login', 'login')->name('login');
  Route::post('register', 'register');
  Route::post('forget', 'forgetPassword');
- Route::post('reset', 'resetPassword');
+ Route::post('reset', 'resetPassword')->name('reset');
  });
 
 Route::middleware('auth:api')->controller(AuthController::class)->group(function () {

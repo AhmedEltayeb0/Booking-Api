@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\RefreshToken;
 use Laravel\Passport\Token;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ResetPassword;
+use Carbon\Carbon;
 
 
 class AuthController extends Controller
@@ -73,58 +76,80 @@ class AuthController extends Controller
             ];
         }
 
+public function forgetPassword(Request $request){
+
+    $email = $request->validate([
+        'email' => 'email|required|exists:users,email',
+    ]);
 
 
-    public function index()
-    {
-        //
+    if($email){
+        //  $user = User::whereemail($email)->first();
+        $RCode = rand(100000,999999);
+         User::Where('email', $request['email'])->update(['reset_code' => $RCode ,'code_created_at' => Carbon::now(), 'expiration_code' => Carbon::now()->addMinutes(60)]);
+         $user = User::whereemail($email)->first();
+        Mail::to($user->email)->queue(new ResetPassword($user));
+        return [
+            'status' => 'Email Reset Password will be Sent Successfuly',
+            'code' => '200', 
+            'data' => new UserResource($user),        
+        ];
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+}
+ 
+public function resetPassword(Request $request)
+{
+     $request = $request->validate([
+        'user_id' =>'required|exists:users,id',
+        'code' => 'required|exists:users,reset_code' ,
+        'password'=> 'string|required|confirmed',
+        'password_confirmation' =>'required|string',
+    ]);
+    if($request){
+        $user =User::whereId($request['user_id'])->whereResetCode($request['code'])->first();
+        // return $user;
+        if($user){
+            if($user->expiration_code < Carbon::now()){
+                return ([
+                    'status' => 'Expiration Code',
+                    'code' => 403,
+                    
+                ]);
+            }
+            elseif(Hash::check($request['password'] , $user->password)) {
+                return ([
+                    'status' => 'this is old password Change it',
+                    'code' => 400,
+                    
+                ]);
+            }
+          else{
+            $user->update([
+                'password' => bcrypt($request['password']) ,
+                'password_confirmation' => $request['password_confirmation'],
+            ]);
+            return ([
+                'status' => 'Password Reset Successfly',
+                'code' => 200,
+                'data' => new UserResource($user),
+            ]);
+        }
+       
+        // return [
+        //     'message' => ''
+        // ];
+    }else{
+        return ([
+            'status' => 'invalid code.',
+            'code' => 500,
+            
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+}
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+}
+  
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }
