@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CustomrController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,17 +16,31 @@ use App\Http\Controllers\AuthController;
 */
 
 
- Route::controller(AuthController::class)->group(function () {
+ Route::prefix('admin')->controller(AuthController::class)->group(function () {
 
- Route::post('login', 'login')->name('login');
- Route::post('register', 'register');
- Route::post('forget', 'forgetPassword');
- Route::post('reset', 'resetPassword')->name('reset');
+    Route::post('login', 'login')->name('login');
+    Route::post('register', 'register');
+    Route::post('forget', 'forgetPassword');
+    Route::post('reset', 'resetPassword')->name('reset');
+    Route::post('logout', 'logout');
+
+
  });
 
-Route::middleware('auth:api')->controller(AuthController::class)->group(function () {
-    
+ Route::prefix('customr')->controller(CustomrController::class)->group(function () {
+
+    Route::post('login', 'login')->name('login');
+    Route::post('register', 'register');
+    Route::post('forget', 'forgetPassword');
+    Route::post('reset', 'resetPassword')->name('reset');
     Route::post('logout', 'logout');
-});
+
+
+ });
+
+// Route::middleware('auth:user_api')->controller(AuthController::class)->group(function () {
+    
+//     Route::post('logout', 'logout');
+// });
 
 

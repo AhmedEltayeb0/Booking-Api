@@ -40,14 +40,22 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'api' => [
+        'web_customrs' => [
+            'driver' => 'session',
+            'provider' => 'customrs',
+        ],
+        'user_api' => [
             'driver' => 'passport',
             'provider' => 'users',
+        ],
+        'customrs_api' => [
+            'driver' => 'passport',
+            'provider' => 'customrs',
         ],
     ],
 
     /*
-    |--------------------------------------------------------------------------
+    |--------------------------P------------------------------------------------
     | User Providers
     |--------------------------------------------------------------------------
     |
@@ -67,6 +75,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+        'customrs' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Customr::class,
         ],
 
         // 'users' => [

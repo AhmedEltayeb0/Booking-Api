@@ -17,9 +17,15 @@ use Carbon\Carbon;
 
 class AuthController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct()
+
+        {
+            //  $this->middleware('auth', ['except' => ['login', 'register', 'forgetPassword' , 'resetPassword']]);
+
+            $this->middleware('auth:user_api', ['except' => ['login', 'register', 'forgetPassword' , 'resetPassword']]);
+
+            // $this->middleware('auth:customrs_api', ['except' => ['login', 'register', 'forgetPassword' , 'resetPassword']]);
+        }
 
         public function login(Request $request){
             
@@ -67,14 +73,7 @@ class AuthController extends Controller
         }
 
 
-        public function logout(Request $request){
-           
-            Auth::user()->token()->revoke();
-            return [
-                'status' => 'User Logout Successfuly',
-                'code' => '200',         
-            ];
-        }
+       
 
 public function forgetPassword(Request $request){
 
@@ -147,9 +146,18 @@ public function resetPassword(Request $request)
         ]);
     }
 
-}
+  }
 
 }
+
+ public function logout(Request $request){
+           
+            Auth::user()->token()->revoke();
+            return [
+                'status' => 'User Logout Successfuly',
+                'code' => '200',         
+            ];
+        }
   
 
 }
