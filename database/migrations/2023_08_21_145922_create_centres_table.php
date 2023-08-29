@@ -17,9 +17,8 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->integer('capacity');
-            $table->date_time_set('work_from');
-            $table->date_time_set('work_to');
-            $table->integer('price/hour');
+            $table->integer('work_from');
+            $table->integer('work_to');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomrController;
 use App\Http\Controllers\CentreController;
+use App\Http\Controllers\BookingController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,7 +30,9 @@ use App\Http\Controllers\CentreController;
  })->group(function (){
 
     Route::resource('customr', CustomrController::class , ['names' => 'customr']);
+   
     Route::resource('centres', CentreController::class , ['names' => 'centres']);
+  
 
  });
 
@@ -41,7 +44,7 @@ use App\Http\Controllers\CentreController;
     Route::post('reset', 'resetPassword')->name('reset');
     Route::post('logout', 'logout');
 
-
+    Route::resource('booking', BookingController::class , ['names' => 'booking']);
  });
 
 // Route::middleware('auth:user_api')->controller(AuthController::class)->group(function () {

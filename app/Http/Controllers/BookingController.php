@@ -4,12 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use App\Http\Requests\BookingRequest;
+use App\Models\Centre;
+use App\Models\Room;
+use Auth ;
 
 class BookingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct()
+
+    {
+        //  $this->middleware('auth', ['except' => ['login', 'register', 'forgetPassword' , 'resetPassword']]);
+
+        // $this->middleware('auth:user_api', ['except' => ['login', 'register', 'forgetPassword' , 'resetPassword']]);
+
+        // $this->middleware('auth:customrs_api', ['except' => ['login', 'register', 'forgetPassword' , 'resetPassword']]);
+        $this->middleware('auth:customrs_api');
+    }
     public function index()
     {
         //
@@ -20,15 +31,41 @@ class BookingController extends Controller
      */
     public function create()
     {
-        //
+      
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BookingRequest $request)
     {
-        //
+        
+       $validate = $request->validated(); 
+       if($validate){
+        // $centre = Room::whereRoom_id($request['room_id'])->get() ;
+        // $centre = Centre::whereRoom_id($request['room_id'])->get() ;
+        // return $centre ;
+        $from = strtotime($request['from']);
+        $to = strtotime($request['to']);
+        $period = gmdate('H:i', $to - $from);
+        // $period =  $request['from'] - $request['from'] ;
+        // return $period ;
+        $reservation = Booking::create(
+            [
+        'customr_id' => Auth::user()->id,
+        'room_id' => $request['room_id'],
+        'booking_date' => $request['booking_date'],
+        'from' => $request['from'],
+        'to' => $request['to'],
+        'period' =>  $period,
+        'status' => 0, // 0 pending - 1 is accept - 2 is reject
+            ]
+        );
+        return [
+            'message' => 'add booking successfuly' ,
+            'code' => 200 ,
+        ];
+       }
     }
 
     /**

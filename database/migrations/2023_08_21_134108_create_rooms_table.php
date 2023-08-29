@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('centre_id')->unsigned();
             $table->string('name');
             $table->integer('capacity');
-            $table->intger('status');
+            $table->integer('status');
             $table->integer('price/hour');
             $table->softDeletes();
             $table->timestamps();
