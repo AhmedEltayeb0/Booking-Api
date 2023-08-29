@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomrController;
+use App\Http\Controllers\CentreController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,14 +17,19 @@ use App\Http\Controllers\CustomrController;
 */
 
 
- Route::prefix('admin')->controller(AuthController::class)->group(function () {
-
+ Route::prefix('admin')
+ ->controller(AuthController::class)->group(function () {
     Route::post('login', 'login')->name('login');
     Route::post('register', 'register');
     Route::post('forget', 'forgetPassword');
     Route::post('reset', 'resetPassword')->name('reset');
     Route::post('logout', 'logout');
 
+
+ })->group(function (){
+
+    Route::resource('customr', CustomrController::class , ['names' => 'customr']);
+    Route::resource('centres', CentreController::class , ['names' => 'centres']);
 
  });
 

@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rooms', function (Blueprint $table) {
+        Schema::create('timeslots', function (Blueprint $table) {
             $table->id();
-            $table->integer('centre_id')->unsigned();
-            $table->string('name');
-            $table->integer('capacity');
-            $table->intger('status');
-            $table->integer('price/hour');
+            $table->date('date');
+            $table->date('from_hour');
+            $table->date('to_hour');
+            $table->intger('status'); 
             $table->softDeletes();
             $table->timestamps();
         });
@@ -28,7 +27,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('rooms', function (Blueprint $table) {
+        Schema::table('timeslots', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });
        

@@ -16,6 +16,13 @@ class Room extends Model
 
     public function centre(): BelongsTo
     {
-        return $this->belongsTo(Centre::class);
+        return $this->belongsTo(Centre::class , 'Centre' , 'centre_id');
+    }
+
+
+
+    public function timeslots()
+    {
+        return $this->belongsToMany(Timeslot::class);
     }
 }

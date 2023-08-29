@@ -23,7 +23,7 @@ class CustomrController extends Controller
     {
         //  $this->middleware('auth', ['except' => ['login', 'register', 'forgetPassword' , 'resetPassword']]);
 
-        // $this->middleware('auth:user_api', ['except' => ['login', 'register', 'forgetPassword' , 'resetPassword']]);
+        $this->middleware('auth:user_api', ['except' => ['login', 'register', 'forgetPassword' , 'resetPassword']]);
 
         $this->middleware('auth:customrs_api', ['except' => ['login', 'register', 'forgetPassword' , 'resetPassword']]);
     }
@@ -172,7 +172,12 @@ public function logout(Request $request){
 
     public function index()
     {
-        //
+       $customr = Customr::all() ;
+       return ([
+        'status' => 'All Customrs',
+        'code' => 200,
+        'data' =>  CustomrResource::collection($customr),
+    ]);
     }
 
     /**
