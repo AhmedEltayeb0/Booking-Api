@@ -27,7 +27,7 @@ class CentreController extends Controller
      */
     public function create(Request $request)
     {
-       
+
     }
 
     /**
@@ -40,18 +40,26 @@ class CentreController extends Controller
             'phone' => 'required|numeric' ,
             'address'=> 'string|required',
             'capacity' =>'required|numeric',
-             'work_from' =>'required|',
-             'work_to' =>'required|',
+             'date_from' =>'required|date_format:Y-m-d',
+             'date_to' =>'required|date_format:Y-m-d',
+             'from' =>'required|date_format:H:i',
+             'to' =>'required|date_format:H:i',
         ]);
         if($request){
             // return "done" ;
+            $from = strtotime($request['from']);
+            $to = strtotime($request['to']);
+            $period = gmdate('H:i', $to - $from);
             $centre = Centre::create([
                 'name' => $request['name'],
                 'phone' => $request['phone'],
                 'address' => $request['address'],
                 'capacity' => $request['capacity'],
-                'work_from' => $request['work_from'],
-                'work_to' => $request['work_to'],
+                'date_from' => $request['date_from'],
+                'date_to' => $request['date_to'],
+                'from' => $request['from'],
+                'to' => $request['to'],
+                'period' => $period ,
             ]);
             // $centre->rooms()->createMany([],[],[]);
             for( $i=1 ; $i<= $request['capacity'] ; $i++){
@@ -63,7 +71,7 @@ class CentreController extends Controller
                 'status' => 0
                 ]);
             }
-   
+
             return new CentreResource($centre);
         }
     }

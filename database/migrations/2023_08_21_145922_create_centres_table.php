@@ -17,8 +17,11 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->integer('capacity');
-            $table->integer('work_from');
-            $table->integer('work_to');
+            $table->date('date_from');
+            $table->date('date_to');
+            $table->time('from');
+            $table->time('to');
+            $table->time('period');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -32,6 +35,6 @@ return new class extends Migration
         Schema::table('centres', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });
-       
+
     }
 };

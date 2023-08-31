@@ -30,9 +30,9 @@ use App\Http\Controllers\BookingController;
  })->group(function (){
 
     Route::resource('customr', CustomrController::class , ['names' => 'customr']);
-   
+
     Route::resource('centres', CentreController::class , ['names' => 'centres']);
-  
+
 
  });
 
@@ -45,10 +45,11 @@ use App\Http\Controllers\BookingController;
     Route::post('logout', 'logout');
 
     Route::resource('booking', BookingController::class , ['names' => 'booking']);
+    Route::post('time', [BookingController::class, 'time']);
  });
 
 // Route::middleware('auth:user_api')->controller(AuthController::class)->group(function () {
-    
+
 //     Route::post('logout', 'logout');
 // });
 

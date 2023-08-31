@@ -10,13 +10,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Room extends Model
 {
     use HasFactory , softDeletes;
-     
+
     protected $guarded =[];
 
 
-    public function centre(): BelongsTo
+    public function centre()
     {
-        return $this->belongsTo(Centre::class , 'Centre' , 'centre_id');
+        return $this->belongsTo(Centre::class);
     }
 
 

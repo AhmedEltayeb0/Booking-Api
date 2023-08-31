@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->integer('customr_id')->unsigned();
             $table->integer('room_id')->unsigned();
-            $table->date('booking_date');
-            $table->time('from');
-            $table->time('to');
+            $table->datetime('booking_date');
+            $table->datetime('from');
+            $table->datetime('to');
             $table->time('period');
             $table->integer('status');
             $table->timestamps();
@@ -32,6 +32,6 @@ return new class extends Migration
         Schema::table('bookings', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });
-       
+
     }
 };
