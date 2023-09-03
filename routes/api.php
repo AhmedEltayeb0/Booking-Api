@@ -45,7 +45,7 @@ use App\Http\Controllers\BookingController;
     Route::post('logout', 'logout');
 
     Route::resource('booking', BookingController::class , ['names' => 'booking']);
-    Route::post('time', [BookingController::class, 'time']);
+    Route::post('time', [BookingController::class, 'time'])->name('timecalc');
  });
 
 // Route::middleware('auth:user_api')->controller(AuthController::class)->group(function () {

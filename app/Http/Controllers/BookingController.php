@@ -9,6 +9,10 @@ use App\Models\Centre;
 use App\Models\Room;
 use Auth ;
 
+use DateTime;
+use DatePeriod;
+use DateInterval;
+
 class BookingController extends Controller
 {
     public function __construct()
@@ -44,6 +48,7 @@ class BookingController extends Controller
        if($validate){
         $room = Room::whereId($request['room_id'])->first();
         $centre = $room->centre()->first();
+        return $centre;
         // $timeroom = centre->
         // return $timecentre ;
         $room_status = $room->status;  // if 0 off -- 1 is on
@@ -91,11 +96,67 @@ class BookingController extends Controller
 
        }
     }
-    public  function time($start ,$end){
-    return $start;
+    public  function time(Request $request){
+        $validate = $request->validate([
+            'dstart' =>'required',
+            'dend' =>'required',
+            'tstart' =>'required',
+            'tend' =>'required',
+             
+        ]);
+if($validate){
+    $start = $request['dstart'];
+    $end = $request['dend'];
+    $tstart = $request['tstart'];
+    $tend = $request['tend'];
+    $step = 3600 ;
+    $tformat = Null;
+    $format = 'Y-m-d' ;
+            // Declare an empty array
+            $array = array();
+            $times = array();  
+            // Variable that store the date interval
+            // of period 1 day
+            $interval = new DateInterval('P1D');
+          
+            $realEnd = new DateTime($end);
+            $realEnd->add($interval);
+          
+             $period = new DatePeriod(new DateTime($start), $interval, $realEnd);
+          
+
+                            if ( empty( $tformat ) ) {
+                                $tformat = 'g:i a';
+                            }
+         
+            // Use loop to store date into array
+            foreach($period as $date) {   
+                foreach ( range( $tstart, $tend, $step ) as $increment ) {
+                    $increment = gmdate( 'H:i', $increment );
+
+                    list( $hour, $minutes ) = explode( ':', $increment );
+
+                     $time = new DateTime( $hour . ':' . $minutes );
+                     $times[] = (string) $increment; 
+                     $array[$date->format($format)] =  $times;
+                }  
+               
+        
+            }
+          
+    return $array;
+
+ }
 
 
-    }
+
+
+
+
+           
+        }
+
+    
     /**
      * Display the specified resource.
      */
