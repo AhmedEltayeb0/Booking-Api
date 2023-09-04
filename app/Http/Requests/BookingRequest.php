@@ -25,8 +25,9 @@ class BookingRequest extends FormRequest
             // 'customr_id'=> 'required|integer|exists:customrs,id',
             'room_id'=> 'required|exists:rooms,id',
             'booking_date'=> 'required|date_format:Y-m-d H:i',
-            'from'=> 'required|date_format:Y-m-d H:i',
-            'to'=> 'required|date_format:Y-m-d H:i',
+            'from'=> 'required|date_format:H:i',
+            'to'=> 'required|date_format:H:i',
+            // 'to'=> 'required|date_format:Y-m-d H:i',
 
         ];
     }

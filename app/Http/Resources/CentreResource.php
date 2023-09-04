@@ -17,8 +17,8 @@ class CentreResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'date_from' => $this->date_from,
-            'date_to' => $this->date_to,
+            // 'date_from' => $this->date_from,
+            // 'date_to' => $this->date_to,
             'from' => $this->from,
             'to' => $this->to,
             'period' => $this->period,

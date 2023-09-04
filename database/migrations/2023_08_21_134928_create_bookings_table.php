@@ -16,10 +16,11 @@ return new class extends Migration
             $table->integer('customr_id')->unsigned();
             $table->integer('room_id')->unsigned();
             $table->datetime('booking_date');
-            $table->datetime('from');
-            $table->datetime('to');
-            $table->time('period');
+            $table->time('from');
+            $table->time('to');
+            $table->string('period');
             $table->integer('status');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -14,6 +14,11 @@ class Room extends Model
     protected $guarded =[];
 
 
+
+    protected $casts = [
+        'workinghours' => 'array',
+    ];
+
     public function centre()
     {
         return $this->belongsTo(Centre::class);

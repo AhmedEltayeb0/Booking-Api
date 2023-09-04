@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('name');
             $table->integer('capacity');
             $table->integer('status');
-            $table->integer('price/hour');
+            $table->integer('priceperhour');
+            $table->json('workinghours');
             $table->softDeletes();
             $table->timestamps();
         });

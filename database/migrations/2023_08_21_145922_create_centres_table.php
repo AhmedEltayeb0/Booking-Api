@@ -17,8 +17,6 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->integer('capacity');
-            $table->date('date_from');
-            $table->date('date_to');
             $table->time('from');
             $table->time('to');
             $table->time('period');

@@ -6,7 +6,9 @@ use App\Models\Centre;
 use App\Models\Room;
 use Illuminate\Http\Request;
 use App\Http\Resources\CentreResource;
-
+use DateTime ;
+use Response ;
+use App\Helpers\TimeHelper;
 
 class CentreController extends Controller
 {
@@ -40,8 +42,8 @@ class CentreController extends Controller
             'phone' => 'required|numeric' ,
             'address'=> 'string|required',
             'capacity' =>'required|numeric',
-             'date_from' =>'required|date_format:Y-m-d',
-             'date_to' =>'required|date_format:Y-m-d',
+            //  'date_from' =>'required|date_format:Y-m-d',
+            //  'date_to' =>'required|date_format:Y-m-d',
              'from' =>'required|date_format:H:i',
              'to' =>'required|date_format:H:i',
         ]);
@@ -55,20 +57,23 @@ class CentreController extends Controller
                 'phone' => $request['phone'],
                 'address' => $request['address'],
                 'capacity' => $request['capacity'],
-                'date_from' => $request['date_from'],
-                'date_to' => $request['date_to'],
+                // 'date_from' => $request['date_from'],
+                // 'date_to' => $request['date_to'],
                 'from' => $request['from'],
                 'to' => $request['to'],
                 'period' => $period ,
             ]);
+
             // $centre->rooms()->createMany([],[],[]);
             for( $i=1 ; $i<= $request['capacity'] ; $i++){
 
                 $room[$i] = $centre->rooms()->create([
                 'name' => "Room" . $i,
-                'price/hour' => "100",
+                'priceperhour' => "100",
                 'capacity' => "50",
-                'status' => 0
+                'status' => 0,
+                'workinghours' => (new TimeHelper())->RangeCreator($request['from'] , $request['to']),
+                // 'workinghours' =>$this->create_time_range($request['from'] , $request['to']),
                 ]);
             }
 
@@ -76,6 +81,50 @@ class CentreController extends Controller
         }
     }
 
+    // public function workinghours($from , $to ,$step = 1800 ){
+        
+    //     $from = new DateTime($from);
+    //     $to = new DateTime($to);
+    //     $times = array();
+    // for( $i = $from; $i <= $to; $i += $step )
+    //     $times[] = date( 'g:ia', $i );
+    // return $times;
+    // //     $times = array();
+
+    // //     if ( empty( $format ) ) {
+    // //         $format = 'g:i a';
+    // //     }
+    
+    // //     foreach ( range( $lower, $upper, $step ) as $increment ) {
+    // //         $increment = gmdate( 'H:i', $increment );
+    
+    // //         list( $hour, $minutes ) = explode( ':', $increment );
+    
+    // //         $date = new DateTime( $hour . ':' . $minutes );
+    
+    // //         $times[(string) $increment] = $date->format( $format );
+    // //     }
+    
+    // //     return $times;
+
+
+
+
+    //    $workinglist [] = array();
+    //    $from = new DateTime($from);
+    //    $to = new DateTime($to);
+       
+    //    $diff = $to->diff($from);
+       
+    //    $hours = $diff->h;
+    //    $hours = $hours + ($diff->days*24);
+    //    return  $hours;
+        
+    // //    return Response::json($hours);
+
+    // }
+
+    
     /**
      * Display the specified resource.
      */

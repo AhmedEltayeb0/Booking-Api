@@ -12,9 +12,23 @@ class RoomResource extends JsonResource
      *
      * @return array<string, mixed>
      */
+
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        // return parent::toArray($request);
+
+        return [
+            'id' => $this->id,
+            'centre_id' => $this->centre_id,
+            'name' => $this->name,
+            // 'date_from' => $this->date_from,
+            'priceperhour' => $this->priceperhour ,
+            'capacity' => $this->capacity,
+            'status' => "0",
+            'workinghours' =>$this->workinghours,
+            'period' => $this->period,
+            // 'created_at' => $this->created_at,
+        ];
     }
     public function with(Request $request){
         return [
@@ -22,4 +36,10 @@ class RoomResource extends JsonResource
             'status' =>'success' ,
         ];
     }
+
+    // public function workinghours($from , $to){
+
+    //     return 'Array' ;
+
+    // }
 }
