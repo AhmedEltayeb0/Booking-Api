@@ -16,6 +16,7 @@ class CentreResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'users' => UserResource::collection($this->users),
             'name' => $this->name,
             // 'date_from' => $this->date_from,
             // 'date_to' => $this->date_to,

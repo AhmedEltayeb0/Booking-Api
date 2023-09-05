@@ -13,6 +13,9 @@ use DateTime;
 use DatePeriod;
 use DateInterval;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ConfirmBooking;
+
 class BookingController extends Controller
 {
     public function __construct()
@@ -46,12 +49,11 @@ class BookingController extends Controller
 
        $validate = $request->validated();
        if($validate){
-        $room = Room::whereId($request['room_id'])->first();
-        // $centre = $room->centre()->first();
-        // return $centre;
-        // $timeroom = centre->
-        // return $timecentre ;
-        $room_status = $room->status;  // if 0 off -- 1 is on
+       $room = Room::whereId($request['room_id'])->first();
+    $room_status = $room->status;  // if 0 off -- 1 is on
+       $centre = $room->centre ;
+        $customr = Auth::user();
+
         if($room_status == 0){
             return [
                 'message' => 'this room is offline Now',
@@ -72,10 +74,12 @@ class BookingController extends Controller
   
             $bookedhours =(new TimeHelper())->RangeCreator($request['from'] , $request['to']);
             $availablehours  =array_values(array_diff($room->workinghours , $bookedhours)) ;
-           
-                // if(Booking::where){
+            $emails = array();
+            foreach($room->centre->users as $users){
 
-                // }
+             $emails = $users->email;
+            }
+            
             $reservation = Booking::updateOrCreate(
                 [
             'customr_id' => Auth::user()->id,
@@ -87,9 +91,10 @@ class BookingController extends Controller
             'status' => 0, // 0 pending - 1 is accept - 2 is reject
                 ]
             );
+            Mail::to($emails)->queue(new ConfirmBooking($room));
             //room update working hours
             $room->update(['workinghours' => $availablehours]);
-
+             
             return [
                 'message' => 'sent booking successfuly we approve your request Soon' ,
                 'code' => 200 ,
@@ -195,5 +200,24 @@ class BookingController extends Controller
     public function destroy(Booking $booking)
     {
         //
+    }
+
+    public function checkbooking($check){
+        
+        if($check == 1 ){
+            Booking::update(['status' , $check ]);
+            return [
+                'message' => 'this Booking Request is Accepted',
+                'code' => '200',
+                'status' => 'Accept booking'
+            ];
+        }else{
+            return [
+                'message' => 'this Booking Request is Reject ',
+                'code' => '400',
+                'status' => 'decline booking'
+            ];
+        }
+
     }
 }

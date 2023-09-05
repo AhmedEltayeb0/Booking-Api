@@ -39,6 +39,7 @@ class CentreController extends Controller
     {
         $request = $request->validate([
             'name' =>'required|string',
+            // 'user_id' =>'required',
             'phone' => 'required|numeric' ,
             'address'=> 'string|required',
             'capacity' =>'required|numeric',
@@ -62,6 +63,7 @@ class CentreController extends Controller
                 'from' => $request['from'],
                 'to' => $request['to'],
                 'period' => $period ,
+                // 'user_id' => $request['user_id'] ,
             ]);
 
             // $centre->rooms()->createMany([],[],[]);
@@ -81,53 +83,7 @@ class CentreController extends Controller
         }
     }
 
-    // public function workinghours($from , $to ,$step = 1800 ){
-        
-    //     $from = new DateTime($from);
-    //     $to = new DateTime($to);
-    //     $times = array();
-    // for( $i = $from; $i <= $to; $i += $step )
-    //     $times[] = date( 'g:ia', $i );
-    // return $times;
-    // //     $times = array();
-
-    // //     if ( empty( $format ) ) {
-    // //         $format = 'g:i a';
-    // //     }
-    
-    // //     foreach ( range( $lower, $upper, $step ) as $increment ) {
-    // //         $increment = gmdate( 'H:i', $increment );
-    
-    // //         list( $hour, $minutes ) = explode( ':', $increment );
-    
-    // //         $date = new DateTime( $hour . ':' . $minutes );
-    
-    // //         $times[(string) $increment] = $date->format( $format );
-    // //     }
-    
-    // //     return $times;
-
-
-
-
-    //    $workinglist [] = array();
-    //    $from = new DateTime($from);
-    //    $to = new DateTime($to);
-       
-    //    $diff = $to->diff($from);
-       
-    //    $hours = $diff->h;
-    //    $hours = $hours + ($diff->days*24);
-    //    return  $hours;
-        
-    // //    return Response::json($hours);
-
-    // }
-
-    
-    /**
-     * Display the specified resource.
-     */
+  
     public function show(Centre $centre)
     {
         //

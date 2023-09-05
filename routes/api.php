@@ -45,7 +45,8 @@ use App\Http\Controllers\BookingController;
     Route::post('logout', 'logout');
 
     Route::resource('booking', BookingController::class , ['names' => 'booking']);
-    Route::post('time', [BookingController::class, 'time'])->name('timecalc');
+   //  Route::post('time', [BookingController::class, 'time'])->name('timecalc');
+    Route::get('confirm/{check}', [BookingController::class, 'checkbooking'])->name('check');
  });
 
 // Route::middleware('auth:user_api')->controller(AuthController::class)->group(function () {

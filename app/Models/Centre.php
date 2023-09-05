@@ -18,5 +18,10 @@ class Centre extends Model
         return $this->hasMany(Room::class , 'centre_id');
     }
 
+    public function users()
+    {
+        return $this->hasMany(User::class , 'centre_id');
+    }
+
     
 }

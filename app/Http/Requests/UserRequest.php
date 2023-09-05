@@ -24,6 +24,7 @@ class UserRequest extends FormRequest
         return [
         
             'name'=> 'required',
+            // 'centre_id'=> 'exists:centre,id',
             'age'=> 'integer|max:150',
             'gender'=> 'string|required',
             'phone'=> 'string|numeric|required|unique:users,phone',
