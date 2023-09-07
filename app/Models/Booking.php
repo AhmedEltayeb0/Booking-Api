@@ -12,4 +12,9 @@ class Booking extends Model
     use HasFactory, softDeletes;
      
     protected $guarded =[];
+
+    public function customr()
+    {
+        return $this->belongsTo(Customr::class);
+    }
 }

@@ -11,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use app\Models\Customr ;
 use app\Models\Room ;
 use app\Models\Centre ;
+use app\Models\Booking ;
 
 class ConfirmBooking extends Mailable
 {
@@ -22,15 +23,16 @@ class ConfirmBooking extends Mailable
 
     // public $centre ;
     // public $customr ;
-    public $room ;
-
-    public function __construct( Room $room)
+    public $room, $resrvation;
+    public function __construct(Room $room , Booking $resrvation)
     {
     //    $this->centre = $centre ;
     //    $this->customr = $customr ;
        $this->room = $room ;
+       $this->resrvation = $resrvation ;
+       
     }
-
+   
     /**
      * Get the message envelope.
      */
@@ -46,12 +48,14 @@ class ConfirmBooking extends Mailable
      */
     public function content(): Content
     {
+
         return new Content(
             markdown: 'emails.ConfirmBooking',
-            with : [
-                'url' => route('check' ,['check'=> 0]) ,
+            // with : [
+            //     'Aurl' => route('check', ['id' => $resrvation->id , 'check'=> 1 ]) ,
+            //     // 'Rurl' => route('check'),
                 
-            ]
+            // ]
         );
     }
 

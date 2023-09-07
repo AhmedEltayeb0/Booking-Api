@@ -14,5 +14,9 @@ class Customr extends Authenticatable
     use HasFactory , softDeletes , HasApiTokens;
      
     protected $guarded =[];
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
     
 }

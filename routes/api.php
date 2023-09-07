@@ -19,7 +19,7 @@ use App\Http\Controllers\BookingController;
 
 
  Route::prefix('admin')
- ->controller(AuthController::class)->group(function () {
+ ->controller(AuthController::class)->group(function () {      
     Route::post('login', 'login')->name('login');
     Route::post('register', 'register');
     Route::post('forget', 'forgetPassword');
@@ -32,7 +32,8 @@ use App\Http\Controllers\BookingController;
     Route::resource('customr', CustomrController::class , ['names' => 'customr']);
 
     Route::resource('centres', CentreController::class , ['names' => 'centres']);
-
+    Route::get('confirm/{id}/{check}', [BookingController::class, 'checkbooking'])->name('check');
+   //  Route::post('confirm', [BookingController::class, 'checkbooking'])->name('check');
 
  });
 
@@ -46,7 +47,7 @@ use App\Http\Controllers\BookingController;
 
     Route::resource('booking', BookingController::class , ['names' => 'booking']);
    //  Route::post('time', [BookingController::class, 'time'])->name('timecalc');
-    Route::get('confirm/{check}', [BookingController::class, 'checkbooking'])->name('check');
+    
  });
 
 // Route::middleware('auth:user_api')->controller(AuthController::class)->group(function () {
