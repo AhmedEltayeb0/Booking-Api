@@ -181,7 +181,12 @@ class BookingController extends Controller
      */
     public function destroy(Booking $booking)
     {
-        //
+       $booking->delete();
+       return [
+        'message' => 'this Booking Was Deleted',
+        'code' => '200',
+
+    ];
     }
 
     public function checkbooking($id, $check)
@@ -209,32 +214,5 @@ class BookingController extends Controller
 
         }
     }
-    //     public function checkbooking(Request $request){
-
-    //        $validated = $request->validate([
-    //         'id' => 'required',
-    //         'check' => 'required',
-    //        ]);
-    //        if($validated){
-    // // return $validated['id'] ;
-    //         $booking = Booking::whereId($validated['id'])->first();
-    //         // return $booking ;
-    //         if($request['check'] == 1 ){
-    //         $booking->update(['status' => $request['check'] ]);
-    //             return [
-    //                 'message' => 'this Booking Request is Accepted',
-    //                 'code' => '200',
-    //                 'status' => 'Accept booking'
-    //             ];
-    //         }elseif($request['check'] == 2){
-    //             $booking->update(['status' => $request['check'] ]);
-    //             return [
-    //                 'message' => 'this Booking Request is Reject ',
-    //                 'code' => '400',
-    //                 'status' => 'decline booking'
-    //             ];
-    //         }
-
-    //     }
-    // }
+   
 }
